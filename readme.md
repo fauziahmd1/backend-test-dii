@@ -59,7 +59,7 @@ Login → Select Role → Generate JWT → Access Menu by Role
 ### 1. Clone Repository
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/fauziahmd1/backend-test-dii.git
 cd backend-test-dii
 
 2. Install Dependencies
