@@ -1,11 +1,15 @@
 # Backend Test - PT Data Integrasi Inovasi
 
-## 📌 Project Description
+## ERD Diagram
+
+![ERD](docs/erd.png)
+
+## Project Description
 
 This project is a backend system for employee access management.  
 It includes authentication, role selection, and dynamic menu authorization based on user roles with multi-level (recursive) menu structure.
 
-## ⚙️ Tech Stack
+## Tech Stack
 
 - Node.js
 - Express.js
@@ -46,11 +50,11 @@ src/
 - Multi-level (nested) menu structure
 - Recursive parent-child relationship
 
-## 🔄 System Flow
+## System Flow
 
 Login → Select Role → Generate JWT → Access Menu by Role
 
-## 🚀 How to Run Project
+## How to Run Project
 
 ### 1. Clone Repository
 
@@ -79,33 +83,101 @@ node src/seeders/seed.js
 5. Run Server
 npm run dev
 
-📌 API Endpoints
-🔑 Auth
+API Documentation
+Auth Endpoints
 
 1. Login
 
 URL : POST http://localhost:3000/auth/login
-Request
+
+Request Body :
 {
   "username": "ahmad",
   "password": "123456"
 }
 
+Response (Success - Multiple Roles) :
+{
+  "success": true,
+  "message": "Choose Role",
+  "user_id": 1,
+  "roles": [
+    {
+      "id": 1,
+      "role_name": "Admin"
+    },
+    {
+      "id": 2,
+      "role_name": "HR"
+    }
+  ]
+}
+
+Response (Error - User Not Found)
+{
+  "success": false,
+  "message": "User not found"
+}
+
+{
+  "success": false,
+  "message": "Invalid password"
+}
+
 2. Select Role
 
 URL : POST http://localhost:3000/auth/select-role
-Request
+
+Request Body:
 {
   "user_id": 1,
   "role_id": 1
 }
 
+Response (Success):
+{
+  "success": true,
+  "message": "Role selected",
+  "token": "jwt_token_here"
+}
+
+
 3. Menu
+
 URL : GET http://localhost:3000/menus
 
 Headers
 Key 		Value
 Authorization	Bearer <token>
+
+Response (Success)
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "menu_name": "Menu 1",
+      "url": "/menu-1",
+      "sort_order": 1,
+      "children": [
+        {
+          "id": 2,
+          "menu_name": "Menu 1.1",
+          "url": "/menu-1-1",
+          "children": []
+        }
+      ]
+    }
+  ]
+}
+
+Response (Error - Invalid Token)
+{
+  "success": false,
+  "message": "Invalid token"
+}
+
+
 
 🧠 Key Logic Explanation
 1. Authentication Flow
